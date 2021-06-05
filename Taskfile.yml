@@ -1,0 +1,23 @@
+version: '3'
+
+vars:
+  BUILD_TIME:
+    sh: date -u '+%Y-%m-%d %I:%M:%S %Z'
+  BUILD_COMMIT:
+    sh: git rev-parse HEAD
+
+tasks:
+  run:
+    desc: Build binary & Run
+    deps: [ build ]
+    cmds:
+      - ./.bin/go-template
+    sources:
+      - ./**/*.go
+
+  build:
+    desc: Build binary
+    cmds:
+      - go build -v
+        -trimpath
+        -o ./.bin/go-template
