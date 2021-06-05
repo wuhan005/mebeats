@@ -24,7 +24,7 @@ func main() {
 	_ = flag.String("auth-key", "", "Mi Band auth key.")
 	flag.Parse()
 
-	log.Trace("Try to connect %q...", deviceName)
+	log.Trace("Try to connect %q...", *deviceName)
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
