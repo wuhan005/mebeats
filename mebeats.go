@@ -21,7 +21,7 @@ func main() {
 	}
 
 	deviceName := flag.String("device-name", "", "Mi Band device name.")
-	authKey := flag.String("auth-key", "", "Mi Band auth key.")
+	_ = flag.String("auth-key", "", "Mi Band auth key.")
 	flag.Parse()
 
 	log.Trace("Try to connect %q...", deviceName)
