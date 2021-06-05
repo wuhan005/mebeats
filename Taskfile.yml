@@ -11,7 +11,7 @@ tasks:
     desc: Build binary & Run
     deps: [ build ]
     cmds:
-      - ./.bin/go-template
+      - ./.bin/mebeats
     sources:
       - ./**/*.go
 
@@ -20,4 +20,4 @@ tasks:
     cmds:
       - go build -v
         -trimpath
-        -o ./.bin/go-template
+        -o ./.bin/mebeats

@@ -1,16 +1,11 @@
-# 🐭 go-template ![Go](https://github.com/wuhan005/Elaina/workflows/Go/badge.svg) [![Go Report Card](https://goreportcard.com/badge/github.com/wuhan005/go-template)](https://goreportcard.com/report/github.com/wuhan005/go-template)
+# 💓 mebeats ![Go](https://github.com/wuhan005/mebeats/workflows/Go/badge.svg) [![Go Report Card](https://goreportcard.com/badge/github.com/wuhan005/mebeats)](https://goreportcard.com/report/github.com/wuhan005/mebeats)
 
-My Go Project Template
+Your Soul, Your Beats!
 
 ## Start
 
-* Update `README.md`.
-    * Choose a cool emoji.
-    * Rename the project.
-    * Update the Go badge, Go report card badge.
-    * Update the project description.
-    * Choose a friendly open source license.
-* Rename the package in `go.mod`.
-* Inspire the world!
+TBD
 
 ## License
+
+MIT

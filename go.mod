@@ -1,4 +1,4 @@
-module github.com/wuhan005/go-template
+module github.com/wuhan005/mebeats
 
 go 1.16
 
