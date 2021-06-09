@@ -5,12 +5,16 @@
 package main
 
 import (
+	"encoding/hex"
 	"flag"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	log "unknwon.dev/clog/v2"
+
+	"github.com/wuhan005/mebeats/miband"
 )
 
 func main() {
@@ -20,11 +24,31 @@ func main() {
 		panic(err)
 	}
 
-	deviceName := flag.String("device-name", "", "Mi Band device name.")
-	_ = flag.String("auth-key", "", "Mi Band auth key.")
+	addr := flag.String("addr", "", "Mi Band device address.")
+	key := flag.String("auth-key", "", "Mi Band auth key.")
 	flag.Parse()
 
-	log.Trace("Try to connect %q...", *deviceName)
+	deviceAddr := strings.ToLower(*addr)
+	deviceAuthKey, err := hex.DecodeString(strings.ReplaceAll(*key, "-", ""))
+	if err != nil {
+		log.Fatal("Failed to decode auth key: %v", err)
+	}
+
+	log.Trace("Try to connect %q...", deviceAddr)
+
+	band, err := miband.NewMiBand(deviceAddr, string(deviceAuthKey))
+	if err != nil {
+		log.Fatal("Failed to new miband: %v", err)
+	}
+	err = band.Initialize()
+	if err != nil {
+		log.Fatal("Failed to initialize", err)
+	}
+
+	err = band.GetHeartRateOneTime()
+	if err != nil {
+		log.Fatal("Failed to init heart rate: %v", err)
+	}
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
