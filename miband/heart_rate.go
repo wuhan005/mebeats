@@ -5,7 +5,10 @@
 package miband
 
 import (
+	"time"
+
 	"github.com/pkg/errors"
+	log "unknwon.dev/clog/v2"
 )
 
 func (m *MiBand) GetHeartRateOneTime() error {
@@ -34,5 +37,16 @@ func (m *MiBand) GetHeartRateOneTime() error {
 	if err != nil {
 		return errors.Wrap(err, "start manual")
 	}
+
+	go func() {
+		for {
+			time.Sleep(12 * time.Second)
+			log.Trace("Send ping...")
+			err = m.client.WriteCharacteristic(m.heartRateControlCharacteristic, []byte("\x16"), false)
+			if err != nil {
+				log.Error("Failed to send ping: %v", err)
+			}
+		}
+	}()
 	return nil
 }
