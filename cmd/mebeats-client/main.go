@@ -26,6 +26,7 @@ func main() {
 
 	addr := flag.String("addr", "", "Mi Band device address.")
 	key := flag.String("auth-key", "", "Mi Band auth key.")
+	serverAddr := flag.String("server-addr", "", "The server address of mebeats.")
 	flag.Parse()
 
 	deviceAddr := strings.ToLower(*addr)
@@ -38,16 +39,36 @@ func main() {
 
 	band, err := miband.NewMiBand(deviceAddr, string(deviceAuthKey))
 	if err != nil {
-		log.Fatal("Failed to new miband: %v", err)
+		log.Fatal("Failed to new Mi Band: %v", err)
 	}
 	err = band.Initialize()
 	if err != nil {
-		log.Fatal("Failed to initialize", err)
+		log.Fatal("Failed to initialize Mi Band: %v", err)
 	}
 
 	err = band.GetHeartRateOneTime()
 	if err != nil {
 		log.Fatal("Failed to init heart rate: %v", err)
+	}
+
+	if *serverAddr != "" {
+		// Report to server.
+		go func() {
+			ch := band.Subscribe()
+			for {
+				select {
+				case <-ch:
+					err := reportToServer(*serverAddr,
+						reportOptions{
+							HeartRate: band.GetCurrentHeartRate(),
+						},
+					)
+					if err != nil {
+						log.Error("Failed to report to server: %v", err)
+					}
+				}
+			}
+		}()
 	}
 
 	sig := make(chan os.Signal, 1)

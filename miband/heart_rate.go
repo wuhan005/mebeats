@@ -50,3 +50,7 @@ func (m *MiBand) GetHeartRateOneTime() error {
 	}()
 	return nil
 }
+
+func (m *MiBand) GetCurrentHeartRate() int {
+	return m.currentHeartRate
+}
