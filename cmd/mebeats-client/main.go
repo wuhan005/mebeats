@@ -63,8 +63,8 @@ func main() {
 				case <-ch:
 					err := report.ToServer(*serverAddr,
 						report.Options{
-							Key:       *serverKey,
-							HeartRate: band.GetCurrentHeartRate(),
+							Key:  *serverKey,
+							Rate: band.GetCurrentHeartRate(),
 						},
 					)
 					if err != nil {
