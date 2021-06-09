@@ -22,7 +22,7 @@ go build . && ./mebeats-server --key=<your_secret_key>
 
 Server runs on `0.0.0.0:2830`.
 
-### Run client
+## Run client
 
 ```bash
 git clone git@github.com:wuhan005/mebeats.git
@@ -31,8 +31,6 @@ cd mebeats/cmd/mebeats-client
 
 go build . && ./mebeats-client --addr=<mi_band_addr> --auth-key=<mi_band_auth_key> --server-addr=<mebeats_server_addr> --server-key=<your_secret_key>
 ```
-
-Server runs on `0.0.0.0:2830`.
 
 ## License
 
