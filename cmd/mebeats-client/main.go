@@ -28,6 +28,7 @@ func main() {
 	addr := flag.String("addr", "", "Mi Band device address.")
 	key := flag.String("auth-key", "", "Mi Band auth key.")
 	serverAddr := flag.String("server-addr", "", "The server address of mebeats.")
+	serverKey := flag.String("server-key", "", "The server key of mebeats.")
 	flag.Parse()
 
 	deviceAddr := strings.ToLower(*addr)
@@ -61,6 +62,7 @@ func main() {
 				case <-ch:
 					err := report.ToServer(*serverAddr,
 						report.Options{
+							Key:       *serverKey,
 							HeartRate: band.GetCurrentHeartRate(),
 						},
 					)

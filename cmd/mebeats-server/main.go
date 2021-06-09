@@ -6,6 +6,7 @@ package main
 
 import (
 	"embed"
+	"flag"
 	"image"
 	"image/color"
 	"image/png"
@@ -31,6 +32,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	key := flag.String("key", "", "Server report key")
+	flag.Parse()
 
 	heartRate := 0
 
@@ -97,6 +101,11 @@ func main() {
 		if err != nil {
 			log.Error("Failed to parse request body: %v", err)
 			ctx.ResponseWriter().WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		if body.Key != *key {
+			ctx.ResponseWriter().WriteHeader(http.StatusForbidden)
 			return
 		}
 

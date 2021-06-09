@@ -14,16 +14,19 @@ import (
 )
 
 type Body struct {
-	HeartRate int `json:"heart_rate"`
+	Key       string `json:"key"`
+	HeartRate int    `json:"heart_rate"`
 }
 
 type Options struct {
+	Key       string
 	HeartRate int
 }
 
 func ToServer(serverAddr string, opts Options) error {
 	body, err := jsoniter.Marshal(
 		Body{
+			Key:       opts.Key,
 			HeartRate: opts.HeartRate,
 		},
 	)
