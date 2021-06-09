@@ -15,6 +15,7 @@ import (
 	log "unknwon.dev/clog/v2"
 
 	"github.com/wuhan005/mebeats/miband"
+	"github.com/wuhan005/mebeats/report"
 )
 
 func main() {
@@ -58,8 +59,8 @@ func main() {
 			for {
 				select {
 				case <-ch:
-					err := reportToServer(*serverAddr,
-						reportOptions{
+					err := report.ToServer(*serverAddr,
+						report.Options{
 							HeartRate: band.GetCurrentHeartRate(),
 						},
 					)

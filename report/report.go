@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-package main
+package report
 
 import (
 	"bytes"
@@ -13,17 +13,17 @@ import (
 	"github.com/pkg/errors"
 )
 
-type reportOptions struct {
+type Body struct {
+	HeartRate int `json:"heart_rate"`
+}
+
+type Options struct {
 	HeartRate int
 }
 
-func reportToServer(serverAddr string, opts reportOptions) error {
-	type report struct {
-		HeartRate int `json:"heart_rate"`
-	}
-
+func ToServer(serverAddr string, opts Options) error {
 	body, err := jsoniter.Marshal(
-		report{
+		Body{
 			HeartRate: opts.HeartRate,
 		},
 	)
