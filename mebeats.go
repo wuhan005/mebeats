@@ -38,11 +38,11 @@ func main() {
 
 	band, err := miband.NewMiBand(deviceAddr, string(deviceAuthKey))
 	if err != nil {
-		log.Fatal("Failed to new miband: %v", err)
+		log.Fatal("Failed to new Mi Band: %v", err)
 	}
 	err = band.Initialize()
 	if err != nil {
-		log.Fatal("Failed to initialize", err)
+		log.Fatal("Failed to initialize Mi Band: %v", err)
 	}
 
 	err = band.GetHeartRateOneTime()
