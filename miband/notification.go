@@ -52,5 +52,6 @@ func (m *MiBand) handleAuthNotification(data []byte) {
 
 func (m *MiBand) handleHeartRateNotification(data []byte) {
 	m.currentHeartRate = int(data[1])
+	m.boardcast()
 	log.Trace("Heart rate: %d", m.currentHeartRate)
 }

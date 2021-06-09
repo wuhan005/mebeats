@@ -11,10 +11,12 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
+	"time"
 
 	log "unknwon.dev/clog/v2"
 
 	"github.com/wuhan005/mebeats/miband"
+	"github.com/wuhan005/mebeats/report"
 )
 
 func main() {
@@ -26,6 +28,8 @@ func main() {
 
 	addr := flag.String("addr", "", "Mi Band device address.")
 	key := flag.String("auth-key", "", "Mi Band auth key.")
+	serverAddr := flag.String("server-addr", "", "The server address of mebeats.")
+	serverKey := flag.String("server-key", "", "The server key of mebeats.")
 	flag.Parse()
 
 	deviceAddr := strings.ToLower(*addr)
@@ -48,6 +52,29 @@ func main() {
 	err = band.GetHeartRateOneTime()
 	if err != nil {
 		log.Fatal("Failed to init heart rate: %v", err)
+	}
+
+	if *serverAddr != "" {
+		// Report to server.
+		go func() {
+			ch := band.Subscribe()
+			for {
+				select {
+				case <-ch:
+					err := report.ToServer(*serverAddr,
+						report.Options{
+							Key:  *serverKey,
+							Rate: band.GetCurrentHeartRate(),
+						},
+					)
+					if err != nil {
+						log.Error("Failed to report to server: %v", err)
+					}
+				case <-time.Tick(5 * time.Minute):
+					log.Error("Time out")
+				}
+			}
+		}()
 	}
 
 	sig := make(chan os.Signal, 1)

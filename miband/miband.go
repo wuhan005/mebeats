@@ -35,6 +35,7 @@ type MiBand struct {
 	heartRateMeasureCharacteristic *ble.Characteristic
 
 	currentHeartRate int
+	subscriber       []chan struct{}
 }
 
 // NewMiBand searches and connect to the Mi band.
@@ -132,6 +133,22 @@ func (m *MiBand) Initialize() error {
 		return errors.Wrap(err, "request random number")
 	}
 	return nil
+}
+
+func (m *MiBand) Subscribe() chan struct{} {
+	ch := make(chan struct{})
+	// FIXME: Here is not thread-safe.
+	m.subscriber = append(m.subscriber, ch)
+	return ch
+}
+
+func (m *MiBand) boardcast() {
+	for _, ch := range m.subscriber {
+		ch := ch
+		go func() {
+			ch <- struct{}{}
+		}()
+	}
 }
 
 func (m *MiBand) requestRandomNumber() error {
