@@ -11,6 +11,7 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
+	"time"
 
 	log "unknwon.dev/clog/v2"
 
@@ -69,6 +70,8 @@ func main() {
 					if err != nil {
 						log.Error("Failed to report to server: %v", err)
 					}
+				case <-time.Tick(5 * time.Minute):
+					log.Error("Time out")
 				}
 			}
 		}()

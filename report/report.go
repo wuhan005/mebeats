@@ -19,15 +19,15 @@ type Body struct {
 }
 
 type Options struct {
-	Key       string
-	HeartRate int
+	Key  string
+	Rate int
 }
 
 func ToServer(serverAddr string, opts Options) error {
 	body, err := jsoniter.Marshal(
 		Body{
 			Key:       opts.Key,
-			HeartRate: opts.HeartRate,
+			HeartRate: opts.Rate,
 		},
 	)
 	if err != nil {
