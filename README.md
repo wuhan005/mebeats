@@ -1,6 +1,6 @@
 # 💓 mebeats ![Go](https://github.com/wuhan005/mebeats/workflows/Go/badge.svg) [![Go Report Card](https://goreportcard.com/badge/github.com/wuhan005/mebeats)](https://goreportcard.com/report/github.com/wuhan005/mebeats)
 
-Your Soul, Your Beats!
+小米手环实时心率数据采集 - Your Soul, Your Beats!
 
 * `cmd/mebeats-client`: the mebeats client. It collects the heart rate data from Mi Band and reports to server.
 * `cmd/mebeats-server`: the mebeats sever. It receives the heart rate data and generate the badge.
